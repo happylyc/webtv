@@ -39,24 +39,26 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           packages: platform-tools platforms;android-37.0 build-tools;37.0.0
+          
+      - name: Generate release keystore
+        run: |
+         keytool -genkeypair \
+         -alias release \
+         -keyalg RSA \
+         -keysize 2048 \
+         -validity 10000 \
+         -keystore app/release.keystore \
+         -storepass android \
+         -keypass android \
+         -dname "CN=Android,O=Android,C=CN"
 
       - name: Write local.properties
         run: |
-          echo "sdk.dir=$ANDROID_HOME" > local.properties
-          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
-            echo "$KEYSTORE_BASE64" | base64 -d > app/release.keystore
-            echo "storeFile=release.keystore" >> local.properties
-            echo "keyAlias=$KEY_ALIAS" >> local.properties
-            echo "storePassword=$KEY_PASSWORD" >> local.properties
-            echo "Signing configured with release keystore"
-          else
-            echo "No signing secrets — APK signed with debug key (cannot update existing install)"
-          fi
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-
+         echo "sdk.dir=$ANDROID_HOME" > local.properties
+         echo "storeFile=release.keystore" >> local.properties
+         echo "keyAlias=release" >> local.properties
+         echo "storePassword=android" >> local.properties
+         echo "keyPassword=android" >> local.properties
       - name: Make gradlew executable
         run: chmod +x gradlew
 
