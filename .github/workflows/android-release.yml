@@ -73,23 +73,23 @@ jobs:
           python3.10 --version
           python3.10 -m venv --help >/dev/null
 
-      - name: Build mobile-universal
-        run: ./gradlew :app:assembleMobileUniversal${{ inputs.build_type || 'Release' }}
+      #- name: Build mobile-universal
+    #    run: ./gradlew :app:assembleMobileUniversal${{ inputs.build_type || 'Release' }}
 
-      - name: Build mobile-arm64
-        run: ./gradlew :app:assembleMobileArm64_v8a${{ inputs.build_type || 'Release' }}
+    #  - name: Build mobile-arm64
+      #  run: ./gradlew :app:assembleMobileArm64_v8a${{ inputs.build_type || 'Release' }}
 
       - name: Build mobile-armv7
         run: ./gradlew :app:assembleMobileArmeabi_v7a${{ inputs.build_type || 'Release' }}
 
-      - name: Build leanback-universal
-        run: ./gradlew :app:assembleLeanbackUniversal${{ inputs.build_type || 'Release' }}
+     # - name: Build leanback-universal
+      #  run: ./gradlew :app:assembleLeanbackUniversal${{ inputs.build_type || 'Release' }}
 
-      - name: Build leanback-arm64
-        run: ./gradlew :app:assembleLeanbackArm64_v8a${{ inputs.build_type || 'Release' }}
+      #- name: Build leanback-arm64
+       # run: ./gradlew :app:assembleLeanbackArm64_v8a${{ inputs.build_type || 'Release' }}
 
-      - name: Build leanback-armv7
-        run: ./gradlew :app:assembleLeanbackArmeabi_v7a${{ inputs.build_type || 'Release' }}
+     # - name: Build leanback-armv7
+       # run: ./gradlew :app:assembleLeanbackArmeabi_v7a${{ inputs.build_type || 'Release' }}
 
       - name: Collect APKs
         id: collect
